@@ -1,4 +1,4 @@
-import { WizBakTopRecord } from './constants/wizbaktop.interface'
+import { WizBakTopRecord } from './constants/wizbaktop.interface';
 
 export class WizBakTop<T extends string> {
     readonly wizBakTopRecord: WizBakTopRecord<T>;
@@ -11,12 +11,12 @@ export class WizBakTop<T extends string> {
 
     start(num: number): string {
         let result = '';
-        for (const oneRecord of this.moduloNumbers) {
-            const oneRecordNumber = Number.parseInt(oneRecord);
-            if (num !== 0 && num % oneRecordNumber === 0) {
-                result += this.wizBakTopRecord[oneRecord as T];
-            }
-        }
+
+        result += this.moduloNumbers.reduce((previous: string, modulo: string) => {
+            const moduloNumber = Number.parseInt(modulo);
+            return (previous +=
+                num !== 0 && num % moduloNumber === 0 ? this.wizBakTopRecord[modulo as T] : '');
+        }, '');
 
         for (const oneDigit of num.toString()) {
             if (this.wizBakTopRecord[oneDigit as T] !== undefined) {
